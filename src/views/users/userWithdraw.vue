@@ -14,8 +14,8 @@
           <td><n-checkbox> </n-checkbox></td>
           <td>{{ title.userId }}</td>
           <td>{{ states[title.status] }}</td>
-          <td>{{ formatDateTime(title.updateTimeLong) }}</td>
-          <td>{{ title.updateTime }}</td>
+          <td>{{ title.createTimeLong == 0 ? '-' : formatDateTime(title.createTimeLong) }}</td>
+          <td>{{ title.updateTimeLong == 0 ? '-' : formatDateTime(title.updateTimeLong) }}</td>
           <td>{{ title.no }}</td>
           <td>{{ title.num }}</td>
         </tr>

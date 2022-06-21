@@ -8,3 +8,11 @@ export function getTotals(data = {}) {
     data,
   })
 }
+//提现申请提交
+export function submitWithdraw(data = {}) {
+  return request({
+    url: '/admin/channel/cashOutChannel',
+    method: 'post',
+    data,
+  })
+}
