@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getUser } from '@/api/user'
+import { createLocalStorage } from '@/utils/cache'
 import { removeToken } from '@/utils/token'
 
 export const useUserStore = defineStore('user', {
@@ -25,14 +25,29 @@ export const useUserStore = defineStore('user', {
   actions: {
     async getUserInfo() {
       try {
-        const res = await getUser()
-        if (res.code === 0) {
-          const { id, name, avatar, role } = res.data
-          this.userInfo = { id, name, avatar, role }
-          return Promise.resolve(res.data)
-        } else {
-          return Promise.reject(res.message)
+        // const res = await getUser();
+        // if (res.code === 0) {
+        // const { id, name, avatar, role } = res.data
+        // this.userInfo = { id, name, avatar, role }
+        const ls = createLocalStorage({ prefixKey: 'login_' })
+        const lsLoginInfo = ls.get('loginInfo')
+        this.userInfo = {
+          id: 1,
+          name: lsLoginInfo.username,
+          avatar: 'https://assets.qszone.com/images/avatar.jpg',
+          email: 'Ronnie@123.com',
+          role: ['admin'],
         }
+        return Promise.resolve({
+          id: 1,
+          name: lsLoginInfo.username,
+          avatar: 'https://assets.qszone.com/images/avatar.jpg',
+          email: 'Ronnie@123.com',
+          role: ['admin'],
+        })
+        // } else {
+        // return Promise.reject(res.message)
+        // }
       } catch (error) {
         console.error(error)
         return Promise.reject(error.message)

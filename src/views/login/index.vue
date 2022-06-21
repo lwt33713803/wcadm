@@ -12,7 +12,7 @@
         </h5>
         <div class="form-item" mt-35>
           <input
-            v-model="loginInfo.name"
+            v-model="loginInfo.username"
             autofocus
             type="text"
             class="input"
@@ -51,8 +51,8 @@ const router = useRouter()
 const query = unref(router.currentRoute).query
 
 const loginInfo = ref({
-  name: 'admin',
-  password: 123456,
+  username: '',
+  password: '',
 })
 
 const ls = createLocalStorage({ prefixKey: 'login_' })
@@ -63,19 +63,18 @@ if (lsLoginInfo) {
 }
 
 async function handleLogin() {
-  const { name, password } = loginInfo.value
-  if (!name || !password) {
+  const { username, password } = loginInfo.value
+  if (!username || !password) {
     $message.warning('请输入用户名和密码')
     return
   }
   try {
     $message.loading('正在验证...')
-    const res = await login({ name, password: password.toString() })
-    if (res.code === 0) {
+    const res = await login({ username, password: password.toString() })
+    if (res.code === '200') {
       $message.success('登录成功')
-      ls.set('loginInfo', { name, password })
+      ls.set('loginInfo', { username, password })
       setToken(res.data.token)
-
       if (query.redirect) {
         const path = query.redirect
         Reflect.deleteProperty(query, 'redirect')

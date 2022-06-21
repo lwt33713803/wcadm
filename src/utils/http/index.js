@@ -6,12 +6,19 @@ function createAxios(option = {}) {
   const service = axios.create({
     timeout: option.timeout || 120000,
     baseURL: option.baseURL || defBaseURL,
+    headers: option.headers || {},
   })
   setupInterceptor(service)
   return service
 }
 
 export const defAxios = createAxios()
+
+export const formAxios = createAxios({
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+})
 
 export const testAxios = createAxios({
   baseURL: window.__APP__GLOB__CONF__?.VITE_APP_GLOB_BASE_API_TEST || import.meta.env.VITE_APP_GLOB_BASE_API_TEST,

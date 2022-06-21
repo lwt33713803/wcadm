@@ -1,9 +1,9 @@
 import { useUserStore } from '@/store/modules/user'
 
-const WITHOUT_TOKEN_API = [{ url: '/auth/login', method: 'POST' }]
+const WITHOUT_TOKEN_API = [{ url: '/login/password', method: 'POST' }]
 
 export function isWithoutToken({ url, method = '' }) {
-  return WITHOUT_TOKEN_API.some((item) => item.url === url && item.method === method.toUpperCase())
+  return WITHOUT_TOKEN_API.some((item) => url.startsWith(item.url))
 }
 
 export function addBaseParams(params) {

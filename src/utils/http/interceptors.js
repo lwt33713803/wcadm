@@ -40,7 +40,9 @@ export function setupInterceptor(service) {
   )
 
   service.interceptors.response.use(
-    (response) => response?.data,
+    (response) => {
+      return response?.data
+    },
     (error) => {
       let { code, message } = error.response?.data
       return Promise.reject({ code, message })
@@ -49,7 +51,7 @@ export function setupInterceptor(service) {
        * TODO 此处可以根据后端返回的错误码自定义框架层面的错误处理
        */
       switch (code) {
-        case 401:
+        case 606:
           // 未登录（可能是token过期或者无效了）
           console.error(message)
           removeToken()
